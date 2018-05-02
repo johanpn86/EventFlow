@@ -155,8 +155,9 @@ namespace EventFlow.Sql.ReadModels
                 t =>
                 {
                     var tableAttribute = t.GetTypeInfo().GetCustomAttribute<TableAttribute>(false);
+
                     return tableAttribute != null
-                        ? $"[{tableAttribute.Name}]"
+                        ? (string.IsNullOrEmpty(tableAttribute.Schema) ? $"[{tableAttribute.Name}]" : $"[{tableAttribute.Schema}].[{tableAttribute.Name}]")
                         : $"[ReadModel-{t.Name.Replace("ReadModel", string.Empty)}]";
                 });
         }
