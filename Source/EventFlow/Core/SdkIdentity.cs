@@ -31,8 +31,7 @@ using EventFlow.ValueObjects;
 
 namespace EventFlow.Core
 {
-    public abstract class SdkIdentity<T> : SingleValueObject<string>, IIdentity
-        where T : SdkIdentity<T>
+    public abstract class SdkIdentity<T> : SingleValueObject<string>, IIdentity where T : SdkIdentity<T>
     {
         // ReSharper disable StaticMemberInGenericType
         private static readonly Regex ValueValidation;
@@ -40,7 +39,7 @@ namespace EventFlow.Core
 
         static SdkIdentity()
         {
-            ValueValidation = new Regex(@"^(?<guid>[a-f0-9]{8}\-[a-f0-9]{4}\-[a-f0-9]{4}\-[a-f0-9]{4}\-[a-f0-9]{12})$", RegexOptions.Compiled);
+            ValueValidation = new Regex(@"^(?<guid>[a-fA-F0-9]{8}\-[a-fA-F0-9]{4}\-[a-fA-F0-9]{4}\-[a-fA-F0-9]{4}\-[a-fA-F0-9]{12})$", RegexOptions.Compiled);
         }
 
         public static T New => With(Guid.NewGuid());
@@ -89,7 +88,7 @@ namespace EventFlow.Core
             if (!string.Equals(value.Trim(), value, StringComparison.OrdinalIgnoreCase))
                 yield return $"Identity '{value}' of type '{typeof(T).PrettyPrint()}' contains leading and/or trailing spaces";
             if (!ValueValidation.IsMatch(value))
-                yield return $"Identity '{value}' of type '{typeof(T).PrettyPrint()}' does not follow the syntax for a guid in lower case";
+                yield return $"Identity '{value}' of type '{typeof(T).PrettyPrint()}' does not follow the syntax for a guid";
         }
 
         protected SdkIdentity(string value) : base(value)
