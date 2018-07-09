@@ -19,14 +19,15 @@
     <PackageLicenseUrl>https://raw.githubusercontent.com/eventflow/EventFlow/develop/LICENSE</PackageLicenseUrl>
     <NeutralLanguage>en-US</NeutralLanguage>
     <PackageReleaseNotes>1.0.1 Tilføjet SdkIdentity klasse der kun bruger Guid istedet for navn-guid som aggregateid
-1.02 Ændret validering af guid til også at tillade guid i upper case</PackageReleaseNotes>
+1.0.2 Ændret validering af guid til også at tillade guid i upper case
+1.1.0 Opdateret til seneste version (0.63) af origin/master</PackageReleaseNotes>
     <DocumentationFile>bin\$(Configuration)\$(TargetFramework)\EventFlow.xml</DocumentationFile>
     <NoWarn>1701;1702;1705;1591</NoWarn>
   </PropertyGroup>
   <PropertyGroup>
     <DefineConstants>LIBLOG_PORTABLE</DefineConstants>
     <PackageId>EventFlow-sdk</PackageId>
-    <Version>1.0.2</Version>
+    <Version>1.1.0</Version>
     <Product>EventFlow-sdk</Product>
   </PropertyGroup>
   <ItemGroup>
