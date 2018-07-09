@@ -4,7 +4,7 @@
     <TargetFrameworks>net451;netstandard1.6</TargetFrameworks>
     <TreatWarningsAsErrors>True</TreatWarningsAsErrors>
     <GenerateAssemblyInfo>True</GenerateAssemblyInfo>
-    <GeneratePackageOnBuild>False</GeneratePackageOnBuild>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <PackageRequireLicenseAcceptance>True</PackageRequireLicenseAcceptance>
     <Title>EventFlow.RabbitMQ</Title>
     <Authors>Rasmus Mikkelsen</Authors>
@@ -18,7 +18,9 @@
     <PackageIconUrl>https://raw.githubusercontent.com/eventflow/EventFlow/develop/icon-128.png</PackageIconUrl>
     <PackageLicenseUrl>https://raw.githubusercontent.com/eventflow/EventFlow/develop/LICENSE</PackageLicenseUrl>
     <NeutralLanguage>en-US</NeutralLanguage>
-    <PackageReleaseNotes>UPDATED BY BUILD</PackageReleaseNotes>
+    <PackageReleaseNotes>1.1: Updated for master version 0.63</PackageReleaseNotes>
+    <PackageId>EventFlow.RabbitMQ-sdk</PackageId>
+    <Version>1.1.0</Version>
   </PropertyGroup>
   <ItemGroup>
     <Folder Include="Properties\" />
