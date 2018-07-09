@@ -79,10 +79,10 @@ namespace EventFlow.TestHelpers
             return instance;
         }
 
-        protected Mock<T> InjectMock<T>()
+        protected Mock<T> InjectMock<T>(params object[] args)
             where T : class
         {
-            var mock = new Mock<T>();
+            var mock = new Mock<T>(args);
             Fixture.Inject(mock.Object);
             return mock;
         }
@@ -107,6 +107,15 @@ namespace EventFlow.TestHelpers
             int aggregateSequenceNumber = 0)
             where TAggregateEvent : IAggregateEvent
         {
+            return ToDomainEvent(A<ThingyId>(), aggregateEvent, aggregateSequenceNumber);
+        }
+
+        protected IDomainEvent<ThingyAggregate, ThingyId> ToDomainEvent<TAggregateEvent>(
+            ThingyId thingyId,
+            TAggregateEvent aggregateEvent,
+            int aggregateSequenceNumber = 0)
+            where TAggregateEvent : IAggregateEvent
+        {
             var metadata = new Metadata
                 {
                     Timestamp = A<DateTimeOffset>(),
@@ -121,7 +130,7 @@ namespace EventFlow.TestHelpers
             return DomainEventFactory.Create<ThingyAggregate, ThingyId>(
                 aggregateEvent,
                 metadata,
-                A<ThingyId>(),
+                thingyId,
                 aggregateSequenceNumber);
         }
 

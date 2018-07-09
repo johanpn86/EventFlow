@@ -1,6 +1,63 @@
-### New in 0.58 (not released yet)
+﻿### New in 0.62 (not released yet)
 
-* _Nothing yet_
+* New: Created `AggregateReadStoreManager<,,,>` which is a new read store manager
+  for read models that have a 1-to-1 relation with an aggregate. If read models get
+  out of sync, or events are applied in different order, events are either fecthed
+  or skipped. Added extensions to allow registration.
+  - `UseInMemoryReadStoreFor<,,>`
+  - `UseElasticsearchReadModelFor<,,>`
+  - `UseMssqlReadModelFor<,,>`
+  - `UseSQLiteReadModelFor<,,>`
+* New: Added `ReadModelId` and `IsNew` properties to the context object that is
+  available to a read model inside the `Apply` methods in order to better support
+  scenarios where a single event affects multiple read model instances. 
+* Minor: Applying events to a snapshot will now have the correct `Version` set 
+  inside the `Apply` methods.
+* Minor: Trying to apply events in the wrong order will now throw an exception.
+
+### New in 0.61.3524 (released 2018-06-26)
+
+* New: Support for `Microsoft.Extensions.DependencyInjection` (`IServiceProvider`
+  and `IServiceCollection`) using the `EventFlow.DependencyInjection` NuGet package.
+  
+  Add it to your ASP.NET Core 2.0 application:
+  ```csharp
+	public void ConfigureServices(IServiceCollection services)
+	{
+		services.AddMvc();
+		services.AddEventFlow(o => o.AddDefaults(MyDomainAssembly));
+	}
+  ```
+  Or use it explicitly:
+  ```csharp
+	EventFlowOptions.New.
+		.UseServiceCollection()
+		...
+		.CreateServiceProvider();
+  ```
+* New: Package `EventFlow.Autofac` now references Autofac 3.5.2 for .NET
+  framework 4.5.1 (down from Autofac v4.5.0)
+* Fixed: Constructor injection of scoped instances into query handlers
+
+### New in 0.60.3490 (released 2018-06-18)
+
+* New: Implemented optimistic concurrency checks for MSSQL, SQLite and
+  Elasticsearch read models 
+* New: Added .NET standard support for EventStore
+* New: Delete read models by invoking `context.MarkForDeletion()` in an Apply method
+* Minor: Removed unnecessary transaction in EventStore persistance
+* Fixed: Read model SQL schema is no longer ignored for `Table` attribute
+
+### New in 0.59.3396 (released 2018-05-23)
+
+* Fix: Commands are now correctly published when no events are emitted from a saga
+  after handling a domain event
+* Minor fix: Updated name of Primary Key for MSSQL Snapshot Store to be different
+  from MSSQL Event Store, so both can be used in the same database without conflicts
+
+### New in 0.58.3377 (released 2018-05-15)
+
+* Minor fix: Corrected log in `CommandBus` regarding events emitted due to command
 
 ### New in 0.57.3359 (released 2018-04-30)
 
