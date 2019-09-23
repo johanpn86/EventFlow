@@ -22,31 +22,42 @@
 // CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace EventFlow.RabbitMQ
 {
     public class RabbitMqConfiguration : IRabbitMqConfiguration
     {
-        public Uri Uri { get; }
+        public IEnumerable<Uri> UriList { get; }
+        public string UserName { get; }
+        public string Password { get; }
+        public string VHost { get; }
         public bool Persistent { get; }
         public int ModelsPrConnection { get; }
         public string Exchange { get; }
 
         public static IRabbitMqConfiguration With(
-            Uri uri,
+            IEnumerable<Uri> uriList,
+            string userName,
+            string password,
+            string vhost,
             bool persistent = true,
             int modelsPrConnection = 5,
             string exchange = "eventflow")
         {
-            return new RabbitMqConfiguration(uri, persistent, modelsPrConnection, exchange);
+            return new RabbitMqConfiguration(uriList, userName, password, vhost, persistent, modelsPrConnection, exchange);
         }
 
-        private RabbitMqConfiguration(Uri uri, bool persistent, int modelsPrConnection, string exchange)
+        private RabbitMqConfiguration(IEnumerable<Uri> uriList, string userName, string password, string vhost, bool persistent, int modelsPrConnection, string exchange)
         {
-            if (uri == null) throw new ArgumentNullException(nameof(uri));
+            if (uriList == null) throw new ArgumentNullException(nameof(uriList));
             if (string.IsNullOrEmpty(exchange)) throw new ArgumentNullException(nameof(exchange));
 
-            Uri = uri;
+            UriList = uriList;
+            UserName = userName;
+            Password = password;
+            VHost = vhost;
             Persistent = persistent;
             ModelsPrConnection = modelsPrConnection;
             Exchange = exchange;

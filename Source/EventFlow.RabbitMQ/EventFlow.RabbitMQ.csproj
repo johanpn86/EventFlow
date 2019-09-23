@@ -18,9 +18,11 @@
     <PackageIconUrl>https://raw.githubusercontent.com/eventflow/EventFlow/develop/icon-128.png</PackageIconUrl>
     <PackageLicenseUrl>https://raw.githubusercontent.com/eventflow/EventFlow/develop/LICENSE</PackageLicenseUrl>
     <NeutralLanguage>en-US</NeutralLanguage>
-    <PackageReleaseNotes>1.1: Updated for master version 0.63</PackageReleaseNotes>
+    <PackageReleaseNotes>1.1: Updated for master version 0.63
+1.2: Added support for multiple Uris
+1.3.1: Added missing vhost/login info in configuration when using endpoints rather than uris (+bugfix)</PackageReleaseNotes>
     <PackageId>EventFlow.RabbitMQ-sdk</PackageId>
-    <Version>1.1.0</Version>
+    <Version>1.3.1</Version>
   </PropertyGroup>
   <ItemGroup>
     <Folder Include="Properties\" />

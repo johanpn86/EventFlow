@@ -22,12 +22,16 @@
 // CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 using System;
+using System.Collections.Generic;
 
 namespace EventFlow.RabbitMQ
 {
     public interface IRabbitMqConfiguration
     {
-        Uri Uri { get; }
+        IEnumerable<Uri> UriList { get; }
+        string UserName { get; }
+        string Password { get; }
+        string VHost { get; }
         bool Persistent { get; }
         int ModelsPrConnection { get; }
         string Exchange { get; }

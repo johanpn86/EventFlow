@@ -22,6 +22,7 @@
 // CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 using System;
+using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -29,6 +30,6 @@ namespace EventFlow.RabbitMQ.Integrations
 {
     public interface IRabbitMqConnectionFactory
     {
-        Task<IRabbitConnection> CreateConnectionAsync(Uri uri, CancellationToken cancellationToken);
+        Task<IRabbitConnection> CreateConnectionAsync(IEnumerable<Uri> uriList, CancellationToken cancellationToken);
     }
 }

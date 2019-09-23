@@ -37,7 +37,7 @@ namespace EventFlow.RabbitMQ.Integrations
         private readonly ILog _log;
         private readonly IRabbitMqConfiguration _configuration;
         private readonly AsyncLock _asyncLock = new AsyncLock();
-        private readonly Dictionary<Uri, ConnectionFactory> _connectionFactories = new Dictionary<Uri, ConnectionFactory>();
+        //private readonly Dictionary<Uri, ConnectionFactory> _connectionFactories = new Dictionary<Uri, ConnectionFactory>();
 
         public RabbitMqConnectionFactory(
             ILog log,
@@ -47,28 +47,31 @@ namespace EventFlow.RabbitMQ.Integrations
             _configuration = configuration;
         }
 
-        public async Task<IRabbitConnection> CreateConnectionAsync(Uri uri, CancellationToken cancellationToken)
+        public async Task<IRabbitConnection> CreateConnectionAsync(IEnumerable<Uri> uriList, CancellationToken cancellationToken)
         {
-            var connectionFactory = await CreateConnectionFactoryAsync(uri, cancellationToken).ConfigureAwait(false);
+            var connectionFactory = await CreateConnectionFactoryAsync(uriList, cancellationToken).ConfigureAwait(false);
             var connection = connectionFactory.CreateConnection();
 
             return new RabbitConnection(_log, _configuration.ModelsPrConnection, connection);
         }
 
-        private async Task<ConnectionFactory> CreateConnectionFactoryAsync(Uri uri, CancellationToken cancellationToken)
+        private async Task<ConnectionFactory> CreateConnectionFactoryAsync(IEnumerable<Uri> uriList, CancellationToken cancellationToken)
         {
             using (await _asyncLock.WaitAsync(cancellationToken).ConfigureAwait(false))
             {
                 ConnectionFactory connectionFactory;
-                if (_connectionFactories.TryGetValue(uri, out connectionFactory))
-                {
-                    return connectionFactory;
-                }
-                _log.Verbose("Creating RabbitMQ connection factory to {0}", uri.Host);
+                //if (_connectionFactories.TryGetValue(uri, out connectionFactory))
+                //{
+                //    return connectionFactory;
+                //}
+                //_log.Verbose("Creating RabbitMQ connection factory to {0}", uri.Host);
 
                 connectionFactory = new ConnectionFactory
                     {
-                        Uri = uri,
+                        EndpointResolverFactory = e => new ClusterEndpointResolver(uriList),
+                        UserName = _configuration.UserName,
+                        Password = _configuration.Password,
+                        VirtualHost = _configuration.VHost,
                         UseBackgroundThreadsForIO = true, // TODO: As soon as RabbitMQ supports async/await, set to false
                         TopologyRecoveryEnabled = true,
                         AutomaticRecoveryEnabled = true,
@@ -79,7 +82,7 @@ namespace EventFlow.RabbitMQ.Integrations
                             },
                     };
 
-                _connectionFactories.Add(uri, connectionFactory);
+                //_connectionFactories.Add(uri, connectionFactory);
                 return connectionFactory;
             }
         }

@@ -22,6 +22,7 @@
 // CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -61,11 +62,11 @@ namespace EventFlow.RabbitMQ.Tests.UnitTests.Integrations
             _rabbitConnectionMock = new Mock<IRabbitConnection>();
 
             _rabbitMqConnectionFactoryMock
-                .Setup(f => f.CreateConnectionAsync(It.IsAny<Uri>(), It.IsAny<CancellationToken>()))
+                .Setup(f => f.CreateConnectionAsync(new []{It.IsAny<Uri>()}, It.IsAny<CancellationToken>()))
                 .Returns(Task.FromResult(_rabbitConnectionMock.Object));
             _rabbitMqConfigurationMock
-                .Setup(c => c.Uri)
-                .Returns(new Uri("amqp://localhost"));
+                .Setup(c => c.UriList)
+                .Returns(new List<Uri>{new Uri("amqp://localhost")});
             _modelMock
                 .Setup(m => m.CreateBasicProperties())
                 .Returns(basicPropertiesMock.Object);

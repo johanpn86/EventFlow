@@ -23,6 +23,7 @@
 
 using System;
 using System.Collections.Concurrent;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -143,7 +144,7 @@ namespace EventFlow.RabbitMQ.Tests.Integration
             configure = configure ?? (e => e);
 
             return configure(EventFlowOptions.New
-                .PublishToRabbitMq(RabbitMqConfiguration.With(_uri, false, exchange: exchange.Value))
+                .PublishToRabbitMq(RabbitMqConfiguration.With(new []{_uri}, "", "", "", false, exchange: exchange.Value))
                 .AddDefaults(EventFlowTestHelpers.Assembly))
                 .CreateResolver(false);
         }
